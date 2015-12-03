@@ -5,7 +5,7 @@ def e_coordenada(uni):
                 return True
     return False
 
-# verifica se é coordenada ou não: retorna True ou False
+# verifica se e coordenada ou nao: retorna True ou False
 
 
 
@@ -63,6 +63,6 @@ def coordenadas_iguais(coor1,coor2):
 def coordenada_para_cadeia(coor):
     if not e_coordenada(coor):
         raise ValueError('coordenada_para_string: argumentos invalidos')
-    return string(coor)
+    return ('(' + str(coor[0]) + ' : ' + str(coor[1]) + ')')
 
 # devolve o tupulo sob a forma de string   <---- comentario mal feito
