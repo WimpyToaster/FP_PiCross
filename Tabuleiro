@@ -1,5 +1,10 @@
 # operacoes basicas para o tabuleiro
 
+def e_tabuleiro (t):
+    if len(t)==3 and isinstance (t, list) and isinstance (t[0], tuple) and isinstance (t[1], list) and isinstance (t[2], tuple) and isinstance (t[1][:], list) and len(t[0])==len(t[2]):
+        return True
+    else:
+        return False
 
 def cria_tabuleiro (t):
     '''A funcao cria um tabuleiro, o qual esta representado por uma lista, sendo o primeiro argumento um tuple com a especificacao das colunas, o ultimo argumento um tuple com a especificacao das linhas e os argumentos do meio sao listas (o mesmo numero de listas como o comprimento da especificacao das colunas) com os argumentos todos a 0 e com comprimento igual ao comprimento do tuple com as especificacoes das linhas.
@@ -13,3 +18,15 @@ def cria_tabuleiro (t):
     coluna_inicial = [0,]*len(linhas)
     
     return [colunas, len(colunas)*[coluna_inicial], linhas]
+
+def tabuleiro_dimensoes (t):
+    return (len(t[-1]), len(t[0]))
+
+def tabuleiro_especificacoes (t):
+    return (t[-1], t[0])
+    
+def tabuleiro_celula (t, c):
+    ''' '''
+    if not (e_coordenada(c) and e_tabuleiro(t)):
+        raise ValueError('tabuleiro_celula: argumentos invalidos')
+    return t[1][c[1]][c[0]]
