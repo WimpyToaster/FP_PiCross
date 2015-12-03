@@ -1,1 +1,6 @@
 # operacoes basicas para o tabuleiro
+
+def cria_coordenada(x,y):
+    if not isinstance(x,int) and isinstance(y,int) and (x > 0 or y > 0):
+        raise ValueError("Argumentos Inválidos: Têem de ser números inteiros, positivos e maiores que 0.")
+    return (x,y)
