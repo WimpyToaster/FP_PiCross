@@ -1,6 +1,15 @@
 # operacoes basicas para o tabuleiro
 
-def cria_coordenada(x,y):
-    if not isinstance(x,int) and isinstance(y,int) and (x > 0 or y > 0):
-        raise ValueError("Argumentos Inválidos: Têem de ser números inteiros, positivos e maiores que 0.")
-    return (x,y)
+
+def cria_tabuleiro (t):
+    '''A funcao cria um tabuleiro, o qual esta representado por uma lista, sendo o primeiro argumento um tuple com a especificacao das colunas, o ultimo argumento um tuple com a especificacao das linhas e os argumentos do meio sao listas (o mesmo numero de listas como o comprimento da especificacao das colunas) com os argumentos todos a 0 e com comprimento igual ao comprimento do tuple com as especificacoes das linhas.
+    A funcao cria_tabuleiro tem como argumento um tuple constituido por dois tuples de inteiros, que representam as especificacoes das linhas e colunas do tabuleiro, respetivamente. '''
+    
+    if not (isinstance  (t, tuple) and isinstance (t[:], tuple) and len(t)==2 and len(t[0])==len(t[1])):
+        raise ValueError('cria_tabuleiro: argumentos invalidos')  
+    
+    linhas = t[0]
+    colunas = t[1]
+    coluna_inicial = [0,]*len(linhas)
+    
+    return [colunas, len(colunas)*[coluna_inicial], linhas]
