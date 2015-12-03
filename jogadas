@@ -1,2 +1,31 @@
-# TAD das jogadas
+# TAD das jogadas      (sem comentarios....nao ha fe xD, fazemos no fim)
 
+def cria_jogada(coor,n):
+    if not (e_coordenada(coor) and (n == 1 or n == 2)):
+        raise ValueError('cria_jogada: argumentos invalidos')
+    return (coor,n)
+
+
+def e_jogada(uni):
+    if (isinstance(jog,tuple) and len(jog) == 2):
+        if (e_coordenada(jog[0]) and (jog[1] == 1 or jog[1] == 2)):
+            return True
+    return False
+
+
+def jogada_coordenada(jog):
+    if not e_jogada(jog):
+        raise ValueError('jogada_coordenada: argumentos inválidos')
+    return jog[0]
+
+
+def jogada_valor(jog):
+    if not e_jogada(jog):
+        raise ValueError('jogada_valor: argumentos invalidos')
+    return jog[1]
+
+
+def jogadas_iguais(jog1,jog2):
+    if not (e_jogada(jogada1) and e_jogada(jogada2)):
+        raise ValueError('jogadas_iguais: argumentos invalidos')
+    return (coordenadas_iguais(jogada_coordenada(jog1),jogada_coordenada(jog2)) and (jogada_valor(jog1[1]) == jogada_valor(jog2[1])))
