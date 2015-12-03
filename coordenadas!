@@ -1,3 +1,5 @@
+# TAD das coordenadas
+
 def e_coordenada(uni):
     if (isinstance(uni,tuple) and len(uni) == 2):
         if (isinstance(uni[0],int) and isinstance(uni[1],int)):
@@ -8,19 +10,12 @@ def e_coordenada(uni):
 # verifica se e coordenada ou nao: retorna True ou False
 
 
-
-
-
-
 def cria_coordenada(l,c):
     if not (isinstance(l,int) and isinstance(c,int) and l*c > 0 ):
         raise ValueError('cria_coordenada: argumentos invalidos')
     return (l,c)
 
 # cria uma coordenada
-
-
-
 
 
 
@@ -33,9 +28,6 @@ def coordenada_linha(coor):
 
 
 
-
-
-
 def coordenada_coluna(coor):
     if not e_coordenada(coor):
         raise ValueError('coordenada_coluna: argumentos invalidos')
@@ -45,18 +37,12 @@ def coordenada_coluna(coor):
 
 
 
-
-
-
 def coordenadas_iguais(coor1,coor2):
     if not (e_coordenada(coor1) and e_coordenada(coor2)):
         raise ValueError('coordenadas_iguais: argumentos invalidos')
     return ((coor1[0] == coor2[0]) and (coor1[1] == coor2[1]))
 
 # devolve o valor logico se as coordenadas sao iguais ou nao
-
-
-
 
 
 
