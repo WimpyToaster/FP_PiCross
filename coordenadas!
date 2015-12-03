@@ -1,14 +1,68 @@
 def e_coordenada(uni):
-    if isinstance(uni,tuple) and len(uni) == 2:
-        if isinstance(uni[0],int) and isinstance(uni[1],int) and (uni[0]*uni[1]<0):
-            return True
+    if (isinstance(uni,tuple) and len(uni) == 2):
+        if (isinstance(uni[0],int) and isinstance(uni[1],int)):
+            if (uni[0] > 0 and uni[1] > 0):
+                return True
     return False
 
 # verifica se é coordenada ou não: retorna True ou False
 
-def cria_coordenada(x,y):
-    if not (isinstance(x,int) and isinstance(y,int) and x*y > 0 ):
-        raise ValueError("Argumentos Inválidos: Têem de ser números inteiros, positivos e maiores que 0.")
-    return (x,y)
+
+
+
+
+
+def cria_coordenada(l,c):
+    if not (isinstance(l,int) and isinstance(c,int) and l*c > 0 ):
+        raise ValueError('cria_coordenada: argumentos invalidos')
+    return (l,c)
 
 # cria uma coordenada
+
+
+
+
+
+
+def coordenada_linha(coor):
+    if not e_coordenada(coor):
+        raise ValueError('coordenada_linha: argumentos invalidos')
+    return coor[0]
+
+# retorna a linha de uma coordenada
+
+
+
+
+
+
+def coordenada_coluna(coor):
+    if not e_coordenada(coor):
+        raise ValueError('coordenada_coluna: argumentos invalidos')
+    return coor[1]
+
+# retorna a coluna de uma coordenada
+
+
+
+
+
+
+def coordenadas_iguais(coor1,coor2):
+    if not (e_coordenada(coor1) and e_coordenada(coor2)):
+        raise ValueError('coordenadas_iguais: argumentos invalidos')
+    return ((coor1[0] == coor2[0]) and (coor1[1] == coor2[1]))
+
+# devolve o valor logico se as coordenadas sao iguais ou nao
+
+
+
+
+
+
+def coordenada_para_cadeia(coor):
+    if not e_coordenada(coor):
+        raise ValueError('coordenada_para_string: argumentos invalidos')
+    return string(coor)
+
+# devolve o tupulo sob a forma de string   <---- comentario mal feito
