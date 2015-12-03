@@ -1,7 +1,14 @@
+def e_coordenada(uni):
+    if isinstance(uni,tuple) and len(uni) == 2:
+        if isinstance(uni[0],int) and isinstance(uni[1],int) and (uni[0]*uni[1]<0):
+            return True
+    return False
+
+# verifica se é coordenada ou não: retorna True ou False
+
 def cria_coordenada(x,y):
-    if not isinstance(x,int) and isinstance(y,int) and (x > 0 or y > 0):
+    if not (isinstance(x,int) and isinstance(y,int) and x*y > 0 ):
         raise ValueError("Argumentos Inválidos: Têem de ser números inteiros, positivos e maiores que 0.")
     return (x,y)
-    
-    
-    # esta merda n funciona pk? XD
+
+# cria uma coordenada
