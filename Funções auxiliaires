@@ -4,5 +4,5 @@ def lenmax(t):
     lenmax = len(t[0])
     for i in range(len(t)):
         if lenmax < len(t[i]):
-            lenmax=len(t[i])
+            lenmax = len(t[i])
     return lenmax
