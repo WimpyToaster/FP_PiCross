@@ -1,4 +1,19 @@
-# Operacoes basicas tabuleiro
+# Tabuleiro
+
+def cria_coordenada(l,c):
+    if not (isinstance(l,int) and isinstance(c,int) and l*c > 0 ):
+        raise ValueError('cria_coordenada: argumentos invalidos')
+    return (l,c)
+
+
+def e_coordenada(uni):
+    if (isinstance(uni,tuple) and len(uni) == 2):
+        if (isinstance(uni[0],int) and isinstance(uni[1],int)):
+            if (uni[0] > 0 and uni[1] > 0):
+                return True
+    return False
+
+
 
 def e_tabuleiro (t):
     import operator
@@ -32,4 +47,35 @@ def tabuleiro_celula (t, c):
     ''' A funcao tabuleiro_cecula tem como argumentos, um tabuleiro 't' que apresenta a estrutura interna '''
     if not (e_coordenada(c) and e_tabuleiro(t)):
         raise ValueError('tabuleiro_celula: argumentos invalidos')
-    return t[1][c[1]][c[0]]
+    return t[1][c[1]-1][c[0]-1]
+
+def tabuleiro_preenche_celula (t, c, e):
+    if not (e_coordenada(c) and e_tabuleiro(t) and isinstance(e, int) and e <=2 and e >=0):
+        raise ValueError('tabuleiro_preenche_celula: argumentos invalidos')
+    t[1][c[1]-1][c[0]-1]=e
+    return t
+
+#def tabuleiro_completo (t):
+
+def tabuleiros_iguais (t1, t2):
+    if tabuleiro_especificacoes(t1) != tabuleiro_especificacoes(t2):
+        return False
+    if tabuleiro_dimensoes(t1) != tabuleiro_dimensoes(t2):
+        return False
+    for i in range(1,tabuleiro_dimensoes(t1)[0]):
+        for j in range(1, tabuleiro_dimensoes(t1)[1]):
+            c = cria_coordenada(i,j)
+            if tabuleiro_celula(t1, c) != tabuleiro_celula(t2, c):
+                return False
+    else:
+        return True
+    
+def escreve_tabuleiro (t):
+    if not e_tabuleiro(t):
+        raise ValueError('escreve_tabuleiro: argumento invalido')
+    for i in range(1,tabuleiro_dimensoes(t)[0]):
+        for j in range(1, tabuleiro_dimensoes(t)[1]):
+            c = cria_coordenada(i,j)
+            print('[ %c ]' % ('?' if (tabuleiro_celula(t,c))==0 else '.'), sep='', end='')
+        print()
+        
