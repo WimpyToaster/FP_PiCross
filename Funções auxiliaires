@@ -6,3 +6,25 @@ def lenmax(t):
         if lenmax < len(t[i]):
             lenmax = len(t[i])
     return lenmax
+
+
+
+
+import ast
+
+def le_tabuleiro(fich):
+    f = open(fich,'r')
+    l = f.readline()
+    f.close()
+    return ast.literal_eval(l)
+
+def pede_jogada(tab):
+    if not e_tabuleiro(tab):
+        raise ValueError('pede_jogada: argumentos invalidos')
+    dim = tabuleiro_dimensoes(tab)[0]
+    print('Introduza uma jogada')
+    c = input('- coordenada entre ' + coordenada_para_cadeia(1,1) + \
+              ' e ' + coordenada_para_cadeia(dim,dim) + ' >> ')
+
+
+    #inacabada
