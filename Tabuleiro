@@ -1,5 +1,34 @@
 # Tabuleiro
 
+# funcoes auxiliares
+
+def lenmax(t):
+    lenmax = len(t[0])
+    for i in range(len(t)):
+        if lenmax < len(t[i]):
+            lenmax=len(t[i])
+    return lenmax
+
+def acrescenta_tuple_colunas(t, n):
+    s=()
+    for i in range(len(t)):
+        l=t[i]
+        while len(l)<n:
+            l=(0,)+l
+        s+=(l,)
+    return s
+
+def acrescenta_tuple_linhas(t, n):
+    s=()
+    for i in range(len(t)):
+        l=t[i]
+        while len(l)<n:
+            l=l+(0,)
+        s+=(l,)
+    return s
+
+# funcoes principais
+
 def cria_coordenada(l,c):
     if not (isinstance(l,int) and isinstance(c,int) and l*c > 0 ):
         raise ValueError('cria_coordenada: argumentos invalidos')
@@ -19,8 +48,23 @@ def e_tabuleiro (t):
     import operator
     import functools
 
-    if len(t)==3 and isinstance (t, list) and isinstance (t[0], tuple) and isinstance (t[1], list) and isinstance (t[2], tuple) and isinstance (t[1][:], list) and all(isinstance(x, int) for x in functools.reduce(operator.add, t[1])) and all(x>=0 for x in (functools.reduce(operator.add, t[1]))) and all(x<=2 for x in (functools.reduce(operator.add, t[1]))) and len(t[0])==len(t[2]):
-        return True
+    if len(t)==3:
+        if isinstance (t, list):
+            if isinstance (t[0], tuple) and isinstance (t[1], list) and isinstance (t[2], tuple):
+                if len(t[0])==len(t[2]):
+                    if isinstance (t[1][:], list):
+                        if all(isinstance(x, int) and (0<=x<=2) for x in functools.reduce(operator.add, t[1])):
+                            return True
+                        else:
+                            return False
+                    else:
+                        return False
+                else:
+                    return False
+            else:
+                return False
+        else:
+            return False
     else:
         return False
     
@@ -38,9 +82,13 @@ def cria_tabuleiro (t):
     return [colunas, len(colunas)*[coluna_inicial], linhas]
 
 def tabuleiro_dimensoes (t):
+    if not e_tabuleiro(t):
+        raise ValueError('tabuçeiro_dimensoes: argumento invalido')
     return (len(t[-1]), len(t[0]))
 
 def tabuleiro_especificacoes (t):
+    if not e_tabuleiro(t):
+            raise ValueError('tabuçeiro_dimensoes: argumento invalido')    
     return (t[-1], t[0])
     
 def tabuleiro_celula (t, c):
@@ -69,14 +117,32 @@ def tabuleiros_iguais (t1, t2):
                 return False
     else:
         return True
-        
+    
 def escreve_tabuleiro (t):
     if not e_tabuleiro(t):
         raise ValueError('escreve_tabuleiro: argumento invalido')
     
+    colunas=acrescenta_tuple_colunas(t[0], lenmax(t[0]))
+    linhas=acrescenta_tuple_linhas(t[2], lenmax(t[2]))
+    
+    for i in range(len(colunas[0])):
+        for j in range(len(colunas)):
+            r=colunas[j][i]
+            if r==0:
+                print('   ', end='  ')
+            else:
+                print('  %d' %r, sep='', end='  ')
+        print()
+      
     for i in range(1,(tabuleiro_dimensoes(t)[0])+1):
         for j in range(1, (tabuleiro_dimensoes(t)[1])+1):
             c = cria_coordenada(i,j)
             print('[ %c ]' % ('?' if (tabuleiro_celula(t,c))==0 else '.'), sep='', end='')
-            linha=t[2][(c[0])-1]
-        print(' %d |' % linha)
+        for k in range(len(linhas[0])):
+            linha=linhas[(c[0])-1][k]
+            if linha==0:
+                print('   ', end='')
+            else:
+                print('  %d' % linha, end='')
+        print('|')
+        
