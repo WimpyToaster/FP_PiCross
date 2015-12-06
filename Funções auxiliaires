@@ -1,5 +1,5 @@
-descobre o len do maior
-#
+#descobre o len do maior
+
 def lenmax(t):
     lenmax = len(t[0])
     for i in range(len(t)):
@@ -7,7 +7,23 @@ def lenmax(t):
             lenmax = len(t[i])
     return lenmax
 
+def acrescenta_tuple_colunas(t, n):
+    s=()
+    for i in range(len(t)):
+        l=t[i]
+        while len(l)<n:
+            l=(0,)+l
+        s+=(l,)
+    return s
 
+def acrescenta_tuple_linhas(t, n):
+    s=()
+    for i in range(len(t)):
+        l=t[i]
+        while len(l)<n:
+            l=l+(0,)
+        s+=(l,)
+    return s
 
 
 import ast
