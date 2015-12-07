@@ -37,10 +37,17 @@ def le_tabuleiro(fich):
 def pede_jogada(tab):
     if not e_tabuleiro(tab):
         raise ValueError('pede_jogada: argumentos invalidos')
+    
     dim = tabuleiro_dimensoes(tab)[0]
-    print('Introduza uma jogada')
+    print('Introduza a jogada')
     c = input('- coordenada entre ' + coordenada_para_cadeia(1,1) + \
-              ' e ' + coordenada_para_cadeia(dim,dim) + ' >> ')
-
+        ' e ' + coordenada_para_cadeia(dim,dim) + ' >> ')
+    coor1 = c[1]
+    coor2 = c[5]
+    v = input('- valor >> ')                #quando nao for da forma pedida, retorna-se argumentos invalidos?
+                                            #coordenada_para_cadeia(coor1,coor2) == c ???
+    if ((0 < coor1 <= dim) and ((v == 1) or (v == 2)) and (0 < coor2 <= dim)):
+        return cria_jogada((coor1,coor2),v)
+    return False
 
     #inacabada
