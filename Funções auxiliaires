@@ -42,12 +42,15 @@ def pede_jogada(tab):
     print('Introduza a jogada')
     c = input('- coordenada entre ' + coordenada_para_cadeia(1,1) + \
         ' e ' + coordenada_para_cadeia(dim,dim) + ' >> ')
-    coor1 = c[1]
-    coor2 = c[5]
-    v = input('- valor >> ')                #quando nao for da forma pedida, retorna-se argumentos invalidos?
-                                            #coordenada_para_cadeia(coor1,coor2) == c ???
+    
+    c = str(c[1:-1])
+    coor1 = int(c.split(':')[0])
+    coor2 = int(c.split(':')[1])
+    v = input('- valor >> ')
+    
+    if not coordenada_para_cadeia(coor1,coor2) == c:
+        raise ValueError('pede_jogada: argumentos inválidos')              
+                                         
     if ((0 < coor1 <= dim) and ((v == 1) or (v == 2)) and (0 < coor2 <= dim)):
         return cria_jogada((coor1,coor2),v)
     return False
-
-    #inacabada
