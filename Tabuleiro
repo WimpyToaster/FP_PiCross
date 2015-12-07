@@ -1,4 +1,6 @@
 # Tabuleiro
+import operator
+import functools
 
 # funcoes auxiliares
 
@@ -27,6 +29,12 @@ def acrescenta_tuple_linhas(t, n):
         s+=(l,)
     return s
 
+def soma_tuple(x):
+    res=0
+    for i in range(len(x)):
+        res += x[i]
+    return res
+
 # funcoes principais
 
 def cria_coordenada(l,c):
@@ -45,9 +53,6 @@ def e_coordenada(uni):
 
 
 def e_tabuleiro (t):
-    import operator
-    import functools
-
     if len(t)==3:
         if isinstance (t, list):
             if isinstance (t[0], tuple) and isinstance (t[1], list) and isinstance (t[2], tuple):
@@ -103,9 +108,10 @@ def tabuleiro_preenche_celula (t, c, e):
     t[1][c[1]-1][c[0]-1]=e
     return t
 
-#def tabuleiro_completo (t):
 
 def tabuleiros_iguais (t1, t2):
+    if not (e_tabuleiro(t1) and e_tabuleiro(t2)):
+        raise ValueError('tabuleiros_iguais: argumentos invalidos')
     if tabuleiro_especificacoes(t1) != tabuleiro_especificacoes(t2):
         return False
     if tabuleiro_dimensoes(t1) != tabuleiro_dimensoes(t2):
@@ -152,3 +158,17 @@ def escreve_tabuleiro (t):
             else:
                 print('  %d' % linha, end='')
         print('|')
+        
+
+        
+        
+def tabuleiro_completo (t):
+    if not e_tabuleiro(t):
+        raise ValueError('tabuleiro_completo: argumento invalido')
+    if not all((x!=0) for x in functools.reduce(operator.add, t[1])):
+        return False
+    else:
+        for i in range(0, tabuleiro_dimensoes(t)[1]):
+            if soma_tuple(t[0][i]) != t[1][i].count(2):
+                return False
+        
