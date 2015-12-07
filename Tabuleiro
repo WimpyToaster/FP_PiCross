@@ -90,18 +90,7 @@ def e_tabuleiro (t):
                     if isinstance (t[1][:], list):
                         if all(isinstance(x, int) and (0<=x<=2) for x in functools.reduce(operator.add, t[1])):
                             return True
-                        else:
-                            return False
-                    else:
-                        return False
-                else:
-                    return False
-            else:
-                return False
-        else:
-            return False
-    else:
-        return False
+    return False
     
 def cria_tabuleiro (t):
     '''A funcao cria um tabuleiro, o qual esta representado por uma lista, sendo o primeiro argumento um tuple com a especificacao das colunas, o ultimo argumento um tuple com a especificacao das linhas e os argumentos do meio sao listas (o mesmo numero de listas como o comprimento da especificacao das colunas) com os argumentos todos a 0 e com comprimento igual ao comprimento do tuple com as especificacoes das linhas.
@@ -112,9 +101,12 @@ def cria_tabuleiro (t):
     
     linhas = t[0]
     colunas = t[1]
-    coluna_inicial = [0,]*len(linhas)
+    matriz = []
     
-    return [colunas, len(colunas)*[coluna_inicial], linhas]
+    for k in len(linhas):
+        matriz.append([0]*len(linhas))
+    
+    return [colunas, matriz, linhas]
 
 def tabuleiro_dimensoes (t):
     if not e_tabuleiro(t):
