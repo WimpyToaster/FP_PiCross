@@ -35,6 +35,36 @@ def soma_tuple(x):
         res += x[i]
     return res
 
+def divisao_lista(x):
+    if not isinstance(x, list):
+        raise ValueError('divisao_lista: argumento invalido')
+    l=[]
+    nova_lista=[]
+    for i in range(len(x)):
+        if x[i] == 2:
+            nova_lista.append(2)
+            if i == (len(x)-1):
+                l.append(nova_lista)
+        elif x[i] == 1:
+            if nova_lista==[]:
+                nova_lista=[]
+            else:
+                l.append(nova_lista)
+                nova_lista = []
+    return l
+
+
+def lista_linhas(t):
+    l=[]
+    lista_nova=[]
+    for i in range(0, tabuleiro_dimensoes(t)[0]):
+            for j in range(0, tabuleiro_dimensoes(t)[1]):
+                lista_nova.append(t[1][j][i])
+            l.append(lista_nova)
+            lista_nova=[]
+    return l
+
+
 # funcoes principais
 
 def cria_coordenada(l,c):
@@ -165,10 +195,25 @@ def escreve_tabuleiro (t):
 def tabuleiro_completo (t):
     if not e_tabuleiro(t):
         raise ValueError('tabuleiro_completo: argumento invalido')
+    
+    linhas = lista_linhas(t)
+    
     if not all((x!=0) for x in functools.reduce(operator.add, t[1])):
         return False
     else:
         for i in range(0, tabuleiro_dimensoes(t)[1]):
             if soma_tuple(t[0][i]) != t[1][i].count(2):
                 return False
-        
+            for j in range(len(t[0][i])):
+                l = divisao_lista(t[1][i])
+                if t[0][i][j] != len(l[j]):
+                    return False
+        for k in range(0, tabuleiro_dimensoes(t)[0]):
+            if soma_tuple(t[2][k]) != linhas[k].count(2):
+                return False
+            for w in range(len(t[2][k])):
+                l = divisao_lista(linhas[k])
+                if t[2][k][w] != len(l[w]):
+                    return False
+    return True
+                
