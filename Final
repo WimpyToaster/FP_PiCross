@@ -1,60 +1,15 @@
+# Grupo 18:
+# António Terra - 84702
+# Miguel Viegas - 84747
+
 import operator
 import functools
 import ast
 
-def e_coordenada(uni):
-    if (isinstance(uni,tuple) and len(uni) == 2):
-        if (isinstance(uni[0],int) and isinstance(uni[1],int)):
-            if (uni[0] > 0 and uni[1] > 0):
-                return True
-    return False
+                  #--------------------------#
+                  #--Funcoes TAD auxiliares--#
+                  #--------------------------#
 
-# verifica se e coordenada ou nao: retorna True ou False
-
-
-def cria_coordenada(l,c):
-    if not (isinstance(l,int) and isinstance(c,int) and l*c > 0 ):
-        raise ValueError('cria_coordenada: argumentos invalidos')
-    return (l,c)
-
-# cria uma coordenada
-
-
-
-def coordenada_linha(coor):
-    if not e_coordenada(coor):
-        raise ValueError('coordenada_linha: argumentos invalidos')
-    return coor[0]
-
-# retorna a linha de uma coordenada
-
-
-
-def coordenada_coluna(coor):
-    if not e_coordenada(coor):
-        raise ValueError('coordenada_coluna: argumentos invalidos')
-    return coor[1]
-
-# retorna a coluna de uma coordenada
-
-
-
-def coordenadas_iguais(coor1,coor2):
-    if not (e_coordenada(coor1) and e_coordenada(coor2)):
-        raise ValueError('coordenadas_iguais: argumentos invalidos')
-    return ((coor1[0] == coor2[0]) and (coor1[1] == coor2[1]))
-
-# devolve o valor logico se as coordenadas sao iguais ou nao
-
-
-
-def coordenada_para_cadeia(coor):
-    if not e_coordenada(coor):
-        raise ValueError('coordenada_para_string: argumentos invalidos')
-    return ('(' + str(coor[0]) + ' : ' + str(coor[1]) + ')')
-
-
-# funcoes auxiliares
 
 def lenmax(t):
     lenmax = len(t[0])
@@ -117,9 +72,69 @@ def lista_linhas(t):
     return l
 
 
-# funcoes principais
+                 #--------------------------#
+                 #--Funcoes TAD coordenadas-#
+                 #--------------------------#
 
-def e_tabuleiro (t):
+def e_coordenada(uni):      # Reconhecedor
+    if (isinstance(uni,tuple) and len(uni) == 2):
+        if (isinstance(uni[0],int) and isinstance(uni[1],int)):
+            if (uni[0] > 0 and uni[1] > 0):
+                return True
+    return False
+
+# verifica se e coordenada ou nao: retorna True ou False
+
+
+def cria_coordenada(l,c):      # Construtor
+    if not (isinstance(l,int) and isinstance(c,int) and l*c > 0 ):
+        raise ValueError('cria_coordenada: argumentos invalidos')
+    return (l,c)
+
+# cria uma coordenada
+
+
+
+def coordenada_linha(coor):     # Seletor
+    if not e_coordenada(coor):
+        raise ValueError('coordenada_linha: argumentos invalidos')
+    return coor[0]
+
+# retorna a linha de uma coordenada
+
+
+
+def coordenada_coluna(coor):    # Seletor
+    if not e_coordenada(coor):
+        raise ValueError('coordenada_coluna: argumentos invalidos')
+    return coor[1]
+
+# retorna a coluna de uma coordenada
+
+
+
+def coordenadas_iguais(coor1,coor2):      # Teste
+    if not (e_coordenada(coor1) and e_coordenada(coor2)):
+        raise ValueError('coordenadas_iguais: argumentos invalidos')
+    return ((coor1[0] == coor2[0]) and (coor1[1] == coor2[1]))
+
+# devolve o valor logico se as coordenadas sao iguais ou nao
+
+
+
+def coordenada_para_cadeia(coor):
+    if not e_coordenada(coor):
+        raise ValueError('coordenada_para_string: argumentos invalidos')
+    return ('(' + str(coor[0]) + ' : ' + str(coor[1]) + ')')
+
+
+                 #--------------------------#
+                 #--Funcoes TAD tabuleiro---#
+                 #--------------------------#
+                 
+                 
+
+def e_tabuleiro (t):           # Reconhecedor
     if len(t)==3:
         if isinstance (t, list):
             if isinstance (t[0], tuple) and isinstance (t[1], list) and isinstance (t[2], tuple):
@@ -130,7 +145,7 @@ def e_tabuleiro (t):
                     
     return False
     
-def cria_tabuleiro (t):
+def cria_tabuleiro (t):         # Construtor
     '''A funcao cria um tabuleiro, o qual esta representado por uma lista, sendo o primeiro argumento um tuple com a especificacao das colunas, o ultimo argumento um tuple com a especificacao das linhas e os argumentos do meio sao listas (o mesmo numero de listas como o comprimento da especificacao das colunas) com os argumentos todos a 0 e com comprimento igual ao comprimento do tuple com as especificacoes das linhas.
     A funcao cria_tabuleiro tem como argumento um tuple constituido por dois tuples de inteiros, que representam as especificacoes das linhas e colunas do tabuleiro, respetivamente. '''
     
@@ -162,14 +177,14 @@ def tabuleiro_celula (t, c):
         raise ValueError('tabuleiro_celula: argumentos invalidos')
     return t[1][c[1]-1][c[0]-1]
 
-def tabuleiro_preenche_celula (t, c, e):
+def tabuleiro_preenche_celula (t, c, e):         # Modificador
     if not (e_coordenada(c) and e_tabuleiro(t) and isinstance(e, int) and e <=2 and e >=0  and coordenada_linha(c)<= tabuleiro_dimensoes(t)[0] and coordenada_coluna(c)<= tabuleiro_dimensoes(t)[1]):
         raise ValueError('tabuleiro_preenche_celula: argumentos invalidos')
     t[1][(c[1]-1)][(c[0]-1)]=e
     return t
 
 
-def tabuleiros_iguais (t1, t2):
+def tabuleiros_iguais (t1, t2):       # Teste
     if not (e_tabuleiro(t1) and e_tabuleiro(t2)):
         raise ValueError('tabuleiros_iguais: argumentos invalidos')
     
@@ -179,7 +194,7 @@ def tabuleiros_iguais (t1, t2):
         return False
     
     
-def escreve_tabuleiro (t):
+def escreve_tabuleiro (t):        # Transformador de saida
     if not e_tabuleiro(t):
         raise ValueError('escreve_tabuleiro: argumento invalido')
     
@@ -218,7 +233,7 @@ def escreve_tabuleiro (t):
 
         
         
-def tabuleiro_completo (t):
+def tabuleiro_completo (t):       # Reconhecedor
     if not e_tabuleiro(t):
         raise ValueError('tabuleiro_completo: argumento invalido')
     
@@ -242,6 +257,12 @@ def tabuleiro_completo (t):
                 if t[2][k][w] != len(l[w]):
                     return False
     return True
+
+
+                    #--------------------------#
+                    #---Funcoes TAD jogadas----#
+                    #--------------------------#
+
 
 def cria_jogada(coor,n):
     if not (e_coordenada(coor) and (n == 1 or n == 2)):
@@ -271,7 +292,9 @@ def jogada_valor(jog):
 def jogadas_iguais(jog1,jog2):
     if not (e_jogada(jog1) and e_jogada(jog2)):
         raise ValueError('jogadas_iguais: argumentos invalidos')
-    return (coordenadas_iguais(jogada_coordenada(jog1),jogada_coordenada(jog2)) and (jogada_valor(jog1) == jogada_valor(jog2)))
+    if (coordenadas_iguais(jogada_coordenada(jog1),jogada_coordenada(jog2)) and (jogada_valor(jog1) == jogada_valor(jog2))):
+        return True
+    return False
 
 def jogada_para_cadeia(jog):
     if not (e_jogada(jog)):
@@ -279,6 +302,12 @@ def jogada_para_cadeia(jog):
     return (str(coordenada_para_cadeia(jogada_coordenada(jog))) + ' --> ' + str(jogada_valor(jog)))
 
 
+
+                        #--------------------------#
+                        #----Funcoes Adicionais----#
+                        #--------------------------#
+                        
+                        
 
 def le_tabuleiro(fich):
     f = open(fich,'r')
@@ -288,19 +317,23 @@ def le_tabuleiro(fich):
 
 
 def pede_jogada(tab):
-    if not e_tabuleiro(tab):
+    if not (e_tabuleiro(tab)):
         raise ValueError('pede_jogada: argumentos invalidos')
     
     dim = tabuleiro_dimensoes(tab)[0]
     c = input('Introduza a jogada\n' + '- coordenada entre ' + coordenada_para_cadeia((1,1)) + \
         ' e ' + coordenada_para_cadeia((dim,dim)) + ' >> ')
     
-    c = str(c[1:-1])
-    coor1 = int(c.split(':')[0])
-    coor2 = int(c.split(':')[1])
+    c = str(c[1:-1])                #Recebe a string no formato do retorno do
+    coor1 = int(c.split(':')[0])    #   coordenada_para_cadeia e obtem os dois
+    coor2 = int(c.split(':')[1])    #   inteiros introduzidos.
     v = input('- valor >> ')
     
-    if not coordenada_para_cadeia((coor1,coor2)) == c:
+    if not (isinstance(coor1,int) and isinstance(coor2,int) and isinstance(v,int)):
+        if not ((0 < coor1 <= dim) and (0 < coor2 <= dim) and (v == 1 or v == 2)):
+            raise ValueError('cria_jogada: argumentos invalidos')
+    
+    if not coordenada_para_cadeia(coor1,coor2) == c:
         raise ValueError('pede_jogada: argumentos invalidos')              
                                          
     if ((0 < coor1 <= dim) and ((v == 1) or (v == 2)) and (0 < coor2 <= dim)):
