@@ -48,7 +48,7 @@ def pede_jogada(tab):
     v = input('- valor >> ')
     
     if not (isinstance(coor1,int) and isinstance(coor2,int) and isinstance(v,int)):
-        if ((0 < coor1 <= dim) and ((v == 1) or (v == 2)) and (0 < coor2 <= dim)):
+        if ((0 < coor1 <= (dim - 1)) and ((v == 1) or (v == 2)) and (0 < coor2 <= (dim - 1))):
             return cria_jogada((coor1,coor2),v)
         return False
     raise ValueError('cria_jogada: argumentos invalidos')
