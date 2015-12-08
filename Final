@@ -1,0 +1,316 @@
+import operator
+import functools
+import ast
+
+def e_coordenada(uni):
+    if (isinstance(uni,tuple) and len(uni) == 2):
+        if (isinstance(uni[0],int) and isinstance(uni[1],int)):
+            if (uni[0] > 0 and uni[1] > 0):
+                return True
+    return False
+
+# verifica se e coordenada ou nao: retorna True ou False
+
+
+def cria_coordenada(l,c):
+    if not (isinstance(l,int) and isinstance(c,int) and l*c > 0 ):
+        raise ValueError('cria_coordenada: argumentos invalidos')
+    return (l,c)
+
+# cria uma coordenada
+
+
+
+def coordenada_linha(coor):
+    if not e_coordenada(coor):
+        raise ValueError('coordenada_linha: argumentos invalidos')
+    return coor[0]
+
+# retorna a linha de uma coordenada
+
+
+
+def coordenada_coluna(coor):
+    if not e_coordenada(coor):
+        raise ValueError('coordenada_coluna: argumentos invalidos')
+    return coor[1]
+
+# retorna a coluna de uma coordenada
+
+
+
+def coordenadas_iguais(coor1,coor2):
+    if not (e_coordenada(coor1) and e_coordenada(coor2)):
+        raise ValueError('coordenadas_iguais: argumentos invalidos')
+    return ((coor1[0] == coor2[0]) and (coor1[1] == coor2[1]))
+
+# devolve o valor logico se as coordenadas sao iguais ou nao
+
+
+
+def coordenada_para_cadeia(coor):
+    if not e_coordenada(coor):
+        raise ValueError('coordenada_para_string: argumentos invalidos')
+    return ('(' + str(coor[0]) + ' : ' + str(coor[1]) + ')')
+
+
+# funcoes auxiliares
+
+def lenmax(t):
+    lenmax = len(t[0])
+    for i in range(len(t)):
+        if lenmax < len(t[i]):
+            lenmax=len(t[i])
+    return lenmax
+
+def acrescenta_tuple_colunas(t, n):
+    s=()
+    for i in range(len(t)):
+        l=t[i]
+        while len(l)<n:
+            l=(0,)+l
+        s+=(l,)
+    return s
+
+def acrescenta_tuple_linhas(t, n):
+    s=()
+    for i in range(len(t)):
+        l=t[i]
+        while len(l)<n:
+            l=l+(0,)
+        s+=(l,)
+    return s
+
+def soma_tuple(x):
+    res=0
+    for i in range(len(x)):
+        res += x[i]
+    return res
+
+def divisao_lista(x):
+    if not isinstance(x, list):
+        raise ValueError('divisao_lista: argumento invalido')
+    l=[]
+    nova_lista=[]
+    for i in range(len(x)):
+        if x[i] == 2:
+            nova_lista.append(2)
+            if i == (len(x)-1):
+                l.append(nova_lista)
+        elif x[i] == 1:
+            if nova_lista==[]:
+                nova_lista=[]
+            else:
+                l.append(nova_lista)
+                nova_lista = []
+    return l
+
+
+def lista_linhas(t):
+    l=[]
+    lista_nova=[]
+    for i in range(0, tabuleiro_dimensoes(t)[0]):
+            for j in range(0, tabuleiro_dimensoes(t)[1]):
+                lista_nova.append(t[1][j][i])
+            l.append(lista_nova)
+            lista_nova=[]
+    return l
+
+
+# funcoes principais
+
+def e_tabuleiro (t):
+    if len(t)==3:
+        if isinstance (t, list):
+            if isinstance (t[0], tuple) and isinstance (t[1], list) and isinstance (t[2], tuple):
+                if len(t[0])==len(t[2]):
+                    if all(isinstance(x, list) for x in t[1][:]):
+                        if all(isinstance(x, int) and (0<=x<=2) for x in functools.reduce(operator.add, t[1])):
+                            return True
+                    
+    return False
+    
+def cria_tabuleiro (t):
+    '''A funcao cria um tabuleiro, o qual esta representado por uma lista, sendo o primeiro argumento um tuple com a especificacao das colunas, o ultimo argumento um tuple com a especificacao das linhas e os argumentos do meio sao listas (o mesmo numero de listas como o comprimento da especificacao das colunas) com os argumentos todos a 0 e com comprimento igual ao comprimento do tuple com as especificacoes das linhas.
+    A funcao cria_tabuleiro tem como argumento um tuple constituido por dois tuples de inteiros, que representam as especificacoes das linhas e colunas do tabuleiro, respetivamente. '''
+    
+    if not (isinstance  (t, tuple) and isinstance (t[:], tuple) and len(t)==2 and len(t[0])==len(t[1])):
+        raise ValueError('cria_tabuleiro: argumentos invalidos')  
+    
+    linhas = t[0]
+    colunas = t[1]
+    matriz = []
+    
+    for k in range(len(linhas)):
+        matriz.append([0]*len(linhas))
+    
+    return [colunas, matriz, linhas]
+
+def tabuleiro_dimensoes (t):
+    if not e_tabuleiro(t):
+        raise ValueError('tabuleiro_dimensoes: argumento invalido')
+    return (len(t[-1]), len(t[0]))
+
+def tabuleiro_especificacoes (t):
+    if not e_tabuleiro(t):
+            raise ValueError('tabuleiro_dimensoes: argumento invalido')    
+    return (t[-1], t[0])
+    
+def tabuleiro_celula (t, c):
+    ''' A funcao tabuleiro_cecula tem como argumentos, um tabuleiro 't' que apresenta a estrutura interna '''
+    if not (e_coordenada(c) and e_tabuleiro(t) and coordenada_linha(c)<= tabuleiro_dimensoes(t)[0] and coordenada_coluna(c)<= tabuleiro_dimensoes(t)[1]):
+        raise ValueError('tabuleiro_celula: argumentos invalidos')
+    return t[1][c[1]-1][c[0]-1]
+
+def tabuleiro_preenche_celula (t, c, e):
+    if not (e_coordenada(c) and e_tabuleiro(t) and isinstance(e, int) and e <=2 and e >=0  and coordenada_linha(c)<= tabuleiro_dimensoes(t)[0] and coordenada_coluna(c)<= tabuleiro_dimensoes(t)[1]):
+        raise ValueError('tabuleiro_preenche_celula: argumentos invalidos')
+    t[1][(c[1]-1)][(c[0]-1)]=e
+    return t
+
+
+def tabuleiros_iguais (t1, t2):
+    if not (e_tabuleiro(t1) and e_tabuleiro(t2)):
+        raise ValueError('tabuleiros_iguais: argumentos invalidos')
+    
+    if t1==t2:
+        return True
+    else:
+        return False
+    
+    
+def escreve_tabuleiro (t):
+    if not e_tabuleiro(t):
+        raise ValueError('escreve_tabuleiro: argumento invalido')
+    
+    colunas=acrescenta_tuple_colunas(t[0], lenmax(t[0]))
+    linhas=acrescenta_tuple_linhas(t[2], lenmax(t[2]))
+    
+    for i in range(len(colunas[0])):
+        for j in range(len(colunas)):
+            r=colunas[j][i]
+            if r==0:
+                print(' ', end='    ')
+            else:
+                print('  %d' %r, sep='', end='  ')
+        print('  ')
+      
+    for i in range(1,(tabuleiro_dimensoes(t)[0])+1):
+        for j in range(1, (tabuleiro_dimensoes(t)[1])+1):
+            c = cria_coordenada(i,j)
+            
+            if tabuleiro_celula(t, c)==0:
+                print('[ %c ]' % '?' , sep='', end='')
+            elif tabuleiro_celula(t, c)==1:
+                print('[ %c ]' % '.' , sep='', end='')
+            else:
+                print('[ %c ]' % 'x' , sep='', end='')
+                
+        for k in range(len(linhas[0])):
+            linha=linhas[(c[0])-1][k]
+            if linha==0:
+                print('  ', end='')
+            else:
+                print(' %d' % linha, end='')
+        print('|')
+    print('')
+        
+
+        
+        
+def tabuleiro_completo (t):
+    if not e_tabuleiro(t):
+        raise ValueError('tabuleiro_completo: argumento invalido')
+    
+    linhas = lista_linhas(t)
+    
+    if not all((x!=0) for x in functools.reduce(operator.add, t[1])):
+        return False
+    else:
+        for i in range(0, tabuleiro_dimensoes(t)[1]):
+            if soma_tuple(t[0][i]) != t[1][i].count(2):
+                return False
+            for j in range(len(t[0][i])):
+                l = divisao_lista(t[1][i])
+                if t[0][i][j] != len(l[j]):
+                    return False
+        for k in range(0, tabuleiro_dimensoes(t)[0]):
+            if soma_tuple(t[2][k]) != linhas[k].count(2):
+                return False
+            for w in range(len(t[2][k])):
+                l = divisao_lista(linhas[k])
+                if t[2][k][w] != len(l[w]):
+                    return False
+    return True
+
+def cria_jogada(coor,n):
+    if not (e_coordenada(coor) and (n == 1 or n == 2)):
+        raise ValueError('cria_jogada: argumentos invalidos')
+    return (coor,n)
+
+
+def e_jogada(uni):
+    if (isinstance(uni,tuple) and len(uni) == 2):
+        if (e_coordenada(uni[0]) and (uni[1] == 1 or uni[1] == 2)):
+            return True
+    return False
+
+
+def jogada_coordenada(jog):
+    if not e_jogada(jog):
+        raise ValueError('jogada_coordenada: argumentos invalidos')
+    return jog[0]
+
+
+def jogada_valor(jog):
+    if not e_jogada(jog):
+        raise ValueError('jogada_valor: argumentos invalidos')
+    return jog[1]
+
+
+def jogadas_iguais(jog1,jog2):
+    if not (e_jogada(jog1) and e_jogada(jog2)):
+        raise ValueError('jogadas_iguais: argumentos invalidos')
+    return (coordenadas_iguais(jogada_coordenada(jog1),jogada_coordenada(jog2)) and (jogada_valor(jog1) == jogada_valor(jog2)))
+
+def jogada_para_cadeia(jog):
+    if not (e_jogada(jog)):
+        raise ValueError('jogada_para_cadeia: argumentos invalidos')
+    return (str(coordenada_para_cadeia(jogada_coordenada(jog))) + ' --> ' + str(jogada_valor(jog)))
+
+
+
+def le_tabuleiro(fich):
+    f = open(fich,'r')
+    l = f.readline()
+    f.close()
+    return ast.literal_eval(l)
+
+
+def pede_jogada(tab):
+    if not e_tabuleiro(tab):
+        raise ValueError('pede_jogada: argumentos invalidos')
+    
+    dim = tabuleiro_dimensoes(tab)[0]
+    c = input('Introduza a jogada\n' + '- coordenada entre ' + coordenada_para_cadeia((1,1)) + \
+        ' e ' + coordenada_para_cadeia((dim,dim)) + ' >> ')
+    
+    c = str(c[1:-1])
+    coor1 = int(c.split(':')[0])
+    coor2 = int(c.split(':')[1])
+    v = input('- valor >> ')
+    
+    if not coordenada_para_cadeia((coor1,coor2)) == c:
+        raise ValueError('pede_jogada: argumentos invalidos')              
+                                         
+    if ((0 < coor1 <= dim) and ((v == 1) or (v == 2)) and (0 < coor2 <= dim)):
+        return cria_jogada((coor1,coor2),v)
+    return False
+
+def jogo_picross(fich):
+    print('JOGO PICROSS')
+    f=le_tabuleiro(fich)
+    t= cria_tabuleiro(f)
+    while tabuleiro_completo(t) == False:
+        escreve_tabuleiro(t)
+        pede_jogada(t)
