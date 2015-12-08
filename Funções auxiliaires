@@ -47,7 +47,7 @@ def pede_jogada(tab):
     coor2 = int(c.split(':')[1])    #   inteiros introduzidos.
     v = input('- valor >> ')
     
-    if not (e_coordenada(coor1,coor2)):
+    if (e_coordenada(coor1,coor2)):
         if ((0 < coor1 <= dim) and ((v == 1) or (v == 2)) and (0 < coor2 <= dim)):
             return cria_jogada((coor1,coor2),v)
         return False
