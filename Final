@@ -265,7 +265,7 @@ def tabuleiro_completo (t):       # Reconhecedor
 
 
 def cria_jogada(coor,n):
-    if not (e_coordenada(coor) and (n == 1 or n == 2)):
+    if not (e_coordenada(coor) and (n != 1 or n != 2)):
         raise ValueError('cria_jogada: argumentos invalidos')
     return (coor,n)
 
