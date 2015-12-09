@@ -46,8 +46,11 @@ def pede_jogada(tab):
     coor1 = int(c.split(':')[0])    #   coordenada_para_cadeia e obtem os dois
     coor2 = int(c.split(':')[1])    #   inteiros introduzidos.
     v = input('- valor >> ')
-    
-    if (coor1 <= dim) and (coor2 <= dim) and isinstance(v, int):
+
+    if v.isdigit:
+        v = int(v)
+        
+    if (coor1 <= dim) and (coor2 <= dim):
         if e_jogada(cria_jogada((coor1,coor2),v)):
             return cria_jogada((coor1,coor2),v)
     return False
