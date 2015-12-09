@@ -336,8 +336,23 @@ def pede_jogada(tab):
 
 def jogo_picross(fich):
     print('JOGO PICROSS')
-    f=le_tabuleiro(fich)
-    t= cria_tabuleiro(f)
-    while tabuleiro_completo(t) == False:
+    f = le_tabuleiro(fich)
+    t = cria_tabuleiro(f)
+    
+    while tabuleiro_preenchido(t) == False:
         escreve_tabuleiro(t)
-        pede_jogada(t)
+        jog = pede_jogada(t)
+        tabuleiro_preenche_celula(f, jog[0], jog[1])
+                
+    return tabuleiro_completo(t)
+
+def tabuleiro_preenchido(tab):
+    dimensao = tabuleiro_dimensoes(tab)
+    
+    dim1 = dimensao[0]
+    dim2 = dimensao[1]
+    for n in range(dim1):
+        for m in range(dim2):
+            if tabuleiro_celula(n,m) == 0:
+                return False
+    return True
