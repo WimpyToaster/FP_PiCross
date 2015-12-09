@@ -51,6 +51,5 @@ def pede_jogada(tab):
         v = int(v)
         
     if (coor1 <= dim) and (coor2 <= dim):
-        if e_jogada(cria_jogada((coor1,coor2),v)):
-            return cria_jogada((coor1,coor2),v)
+        return cria_jogada((coor1,coor2),v)
     return False
